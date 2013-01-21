@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>com.horsefire.maven</groupId>
 		<artifactId>common-pom</artifactId>
-		<version>0.4</version>
+		<version>0.5</version>
 	</parent>
 
 	<properties>
