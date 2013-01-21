@@ -117,8 +117,10 @@ public class TiddlerService {
 			result.append("<div title=\"").append(tiddler.title)
 					.append("\" creator=\"").append(tiddler.creator)
 					.append("\" modifier=\"").append(tiddler.modifier)
-					.append("\" created=\"").append(tiddler.created)
-					.append("\" modified=\"").append(tiddler.modified);
+					.append("\" created=\"").append(tiddler.created);
+			if (tiddler.modified != null && !tiddler.modified.isEmpty()) {
+				result.append("\" modified=\"").append(tiddler.modified);
+			}
 			if (tiddler.tags != null && !tiddler.tags.isEmpty()) {
 				result.append("\" tags=\"").append(tiddler.tags);
 			}
