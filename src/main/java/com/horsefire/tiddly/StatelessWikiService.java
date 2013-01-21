@@ -1,5 +1,6 @@
 package com.horsefire.tiddly;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ public class StatelessWikiService implements WikiService {
 	}
 
 	@Override
-	public Wiki get() {
+	public Wiki get() throws IOException {
 		try {
 			String wiki = new String(m_fileService.get(), "UTF-8");
 			String tag = "<!--POST-SHADOWAREA-->";
@@ -58,7 +59,7 @@ public class StatelessWikiService implements WikiService {
 	}
 
 	@Override
-	public void put(Wiki wiki) {
+	public void put(Wiki wiki) throws IOException {
 		try {
 			String[] parts = wiki.getParts();
 			int i = 0;

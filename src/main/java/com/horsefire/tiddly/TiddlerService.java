@@ -83,6 +83,7 @@ public class TiddlerService {
 			tiddler.modifier = element.getAttribute("modifier");
 			tiddler.created = element.getAttribute("created");
 			tiddler.modified = element.getAttribute("modified");
+			tiddler.tags = element.getAttribute("tags");
 			tiddler.changecount = element.getAttribute("changecount");
 
 			NodeList contents = element.getElementsByTagName("pre");
@@ -111,21 +112,26 @@ public class TiddlerService {
 			}
 		});
 		StringBuilder result = new StringBuilder();
+		result.append("\n<div id=\"storeArea\">\n");
 		for (Tiddler tiddler : tiddlers) {
 			result.append("<div title=\"").append(tiddler.title)
 					.append("\" creator=\"").append(tiddler.creator)
 					.append("\" modifier=\"").append(tiddler.modifier)
 					.append("\" created=\"").append(tiddler.created)
-					.append("\" modified=\"").append(tiddler.modified)
-					.append("\" changecount=\"").append(tiddler.changecount)
+					.append("\" modified=\"").append(tiddler.modified);
+			if (tiddler.tags != null && !tiddler.tags.isEmpty()) {
+				result.append("\" tags=\"").append(tiddler.tags);
+			}
+			result.append("\" changecount=\"").append(tiddler.changecount)
 					.append("\">\n");
-			result.append("<pre>").append(tiddler.content).append("</div>\n");
+			result.append("<pre>").append(tiddler.content).append("</pre>\n");
 			result.append("</div>\n");
 		}
+		result.append("</div>\n");
 		return result.toString();
 	}
 
-	public Tiddler get(String title) {
+	public Tiddler get(String title) throws IOException {
 		List<Tiddler> tiddlers = parseTiddlers(m_fileService.get());
 		for (Tiddler tiddler : tiddlers) {
 			if (title.equals(tiddler.title)) {
@@ -135,7 +141,7 @@ public class TiddlerService {
 		return null;
 	}
 
-	public boolean delete(String title) {
+	public boolean delete(String title) throws IOException {
 		Wiki wiki = m_fileService.get();
 		List<Tiddler> tiddlers = parseTiddlers(wiki);
 		for (Iterator<Tiddler> it = tiddlers.iterator(); it.hasNext();) {
@@ -150,7 +156,7 @@ public class TiddlerService {
 		return false;
 	}
 
-	public void put(Tiddler tiddler) {
+	public void put(Tiddler tiddler) throws IOException {
 		Wiki wiki = m_fileService.get();
 		List<Tiddler> tiddlers = parseTiddlers(wiki);
 		for (Iterator<Tiddler> it = tiddlers.iterator(); it.hasNext();) {
@@ -159,7 +165,7 @@ public class TiddlerService {
 			}
 		}
 		tiddlers.add(tiddler);
-		wiki.setStore(renderTiddlers(tiddlers));
+		wiki = wiki.setStore(renderTiddlers(tiddlers));
 		m_fileService.put(wiki);
 	}
 }

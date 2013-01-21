@@ -1,5 +1,9 @@
 package com.horsefire.tiddly;
 
+/**
+ * Immutable class 
+ * @author steve
+ */
 public final class Wiki {
 
 	private final String m_header;

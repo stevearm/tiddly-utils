@@ -7,6 +7,7 @@ public class Tiddler {
 	public String modifier;
 	public String created;
 	public String modified;
+	public String tags;
 	public String changecount;
 
 	public String content;
